@@ -6,7 +6,8 @@ from transformers import RobertaTokenizer, T5ForConditionalGeneration
 from transformers import AutoModelForSeq2SeqLM
 import model_graphcodebert
 import model_codebert
-
+import os
+from safetensors.torch import load_file
 
 def get_plbart_model(config):
     model_ckpt = torch.load(config['victim_model_ckpt']) # fairseq original plbart ckpt
@@ -95,6 +96,35 @@ def get_graphcodebert_model(config):
     
     model.load_state_dict(torch.load(config['victim_model_ckpt']))
 
+    return model, tokenizer
+
+def get_invariantbert_model(config):
+    model_dir = '/home/ziliwang/Projects/BERT_models/InvariantBERT_CL12'
+    config_path = os.path.join(model_dir, 'config.json')
+    
+    model_config = RobertaConfig.from_pretrained(config_path)
+    tokenizer = RobertaTokenizer.from_pretrained('microsoft/graphcodebert-base')
+
+    encoder = RobertaModel.from_pretrained(model_dir, config=model_config)
+    decoder_layer = nn.TransformerDecoderLayer(
+        d_model=model_config.hidden_size,
+        nhead=model_config.num_attention_heads
+    )
+    decoder = nn.TransformerDecoder(decoder_layer, num_layers=6)
+
+    # Initialize the Seq2Seq model
+    model = model_graphcodebert.Seq2Seq(
+        encoder=encoder,
+        decoder=decoder,
+        config=model_config,
+        beam_size=config['beam_size'],
+        max_length=config['max_target_length'],
+        sos_id=tokenizer.cls_token_id,
+        eos_id=tokenizer.sep_token_id
+    )
+
+    # Load the model weights from model.safetensors
+    model.load_state_dict(torch.load(config['victim_model_ckpt']))
     return model, tokenizer
 
 def get_roberta_model(config):

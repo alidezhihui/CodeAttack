@@ -15,7 +15,7 @@ import torch
 from transformers import RobertaConfig, RobertaTokenizer, RobertaConfig, RobertaForMaskedLM
 from transformers import BertTokenizer, BertForMaskedLM
 
-from get_models import get_roberta_model, get_codet5_model, get_codebert_model, get_graphcodebert_model
+from get_models import get_roberta_model, get_codet5_model, get_codebert_model, get_graphcodebert_model, get_invariantbert_model
 from attack import attack
 from get_data import get_summarization_data, get_translation_data
 
@@ -165,7 +165,10 @@ def run_attack():
     elif config['victim_model'] == 'graphcodebert':
         victim_model['model'], victim_model['tokenizer'] = get_graphcodebert_model(config) 
     elif config['victim_model'] == 'roberta':
-        victim_model['model'], victim_model['tokenizer'] = get_roberta_model(config) 
+        victim_model['model'], victim_model['tokenizer'] = get_roberta_model(config)
+    elif config['victim_model'] == 'invariantbert':
+        victim_model['model'], victim_model['tokenizer'] = get_invariantbert_model(config)
+    #TODO: our own function
 
     victim_model['model'].to(device)
     
