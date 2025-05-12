@@ -103,7 +103,7 @@ def get_invariantbert_model(config):
     config_path = os.path.join(model_dir, 'config.json')
     
     model_config = RobertaConfig.from_pretrained(config_path)
-    tokenizer = RobertaTokenizer.from_pretrained('microsoft/graphcodebert-base')
+    tokenizer = RobertaTokenizer.from_pretrained('microsoft/codebert-base')
 
     encoder = RobertaModel.from_pretrained(model_dir, config=model_config)
     decoder_layer = nn.TransformerDecoderLayer(
@@ -113,7 +113,7 @@ def get_invariantbert_model(config):
     decoder = nn.TransformerDecoder(decoder_layer, num_layers=6)
 
     # Initialize the Seq2Seq model
-    model = model_graphcodebert.Seq2Seq(
+    model = model_codebert.Seq2Seq(
         encoder=encoder,
         decoder=decoder,
         config=model_config,

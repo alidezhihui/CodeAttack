@@ -5,7 +5,6 @@ python codeattack.py \
     --lang java_cs \
     --input_lang java \
     --out_dirname invariantbert_java_cs \
-    --output_path /home/ziliwang/Output/adversarial_attack \
     --theta 0.4 \
-    --use_ast_constraint 1
+    --use_ast 0 | tee codeattack_log.txt
     

@@ -207,7 +207,7 @@ dependencies:
       - pandocfilters==1.5.0
       - pathspec==0.9.0
       - pathtools==0.1.2
-      - pattern==3.6
+      # - pattern==3.6.0
       - pattern3==3.0.0
       - pdfminer-six==20211012
       - pdfminer3k==1.3.4
@@ -311,4 +311,3 @@ dependencies:
       - xxhash==2.0.2
       - yaspin==2.1.0
       - zc-lockfile==2.0
-prefix: /home/akshitajha/miniconda3/envs/textattackenv

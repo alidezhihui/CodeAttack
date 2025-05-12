@@ -19,7 +19,7 @@ from get_models import get_roberta_model, get_codet5_model, get_codebert_model, 
 from attack import attack
 from get_data import get_summarization_data, get_translation_data
 
-from textfooler.utils_textfooler import get_var, get_sim_predictor
+# from textfooler.utils_textfooler import get_var, get_sim_predictor
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 # os.environ['CUDA_VISIBLE_DEVICES']= '1'
@@ -143,14 +143,14 @@ def run_attack():
         atk_model['sim_predictor'] = get_sim_predictor()
         print("BertAttack")
         atk_model['mlm'].to(device)
-    elif config['attack_model'] == 'textfooler':
-        atk_model['name'] = 'textfooler'
-        atk_model['sim_thresh'] = 0.5
-        atk_model['tokenizer'] = ''
-        atk_model['mlm']  = ''
-        atk_model['idx2word'], atk_model['word2idx'], atk_model['cos_sim'] = get_var()
-        atk_model['sim_predictor'] = get_sim_predictor()
-        print("Textfooler")
+    # elif config['attack_model'] == 'textfooler':
+    #     atk_model['name'] = 'textfooler'
+    #     atk_model['sim_thresh'] = 0.5
+    #     atk_model['tokenizer'] = ''
+    #     atk_model['mlm']  = ''
+    #     atk_model['idx2word'], atk_model['word2idx'], atk_model['cos_sim'] = get_var()
+    #     atk_model['sim_predictor'] = get_sim_predictor()
+    #     print("Textfooler")
     
 
     victim_model = {}

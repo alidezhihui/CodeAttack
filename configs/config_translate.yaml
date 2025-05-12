@@ -1,8 +1,8 @@
 # victim_model : codet5
 # attack_model: bertattack
 task : translation
-lang: cs_java
-input_lang: cs
+lang: java_cs
+input_lang: java
 # out_dirname : temp
 # theta: 0.4
 use_imp_words: 1
@@ -20,5 +20,5 @@ num_label : 0
 use_pred_idx: 1
 input : 'pl'
 output : 'pl'
-output_path: '/home/akshitajha/adversarial_attack/generation/output'
+output_path: '/home/ziliwang/Output/adversarial_attack'
 mlm_path : 'microsoft/codebert-base-mlm'

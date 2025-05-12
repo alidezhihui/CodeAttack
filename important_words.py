@@ -70,7 +70,7 @@ def get_important_scores(words, pred_score, pred_indices, victim_model, config, 
             pred_len, batch_size, vocab = batch_scores_stack.shape
             batch_scores_stack = batch_scores_stack.reshape(batch_size, pred_len, vocab)
 
-        elif config['victim_model'] == 'codebert' or config['victim_model'] == 'roberta':
+        elif config['victim_model'] == 'codebert' or config['victim_model'] == 'roberta' or config['victim_model'] == 'invariantbert':
             preds, scores = victim_model['model'](source_ids=masked_input_batch,
                                                   source_mask=masked_attention_batch)  
             
@@ -88,6 +88,7 @@ def get_important_scores(words, pred_score, pred_indices, victim_model, config, 
         # Original Pred Sequence Text: "<s> Two sum </s>"; Orginal pred Indices: [1, 100, 200, 2]
         # Calculate the scores only at these indices
         elif config['use_pred_idx'] == 1:
+            print("the device is ", config['device'])
             max_scores_with_idx = torch.index_select(batch_scores_stack, 2, torch.tensor(pred_indices).to(config['device']))
             max_scores_idx_batch = torch.diagonal(max_scores_with_idx, dim1=-2, dim2=-1)
             max_scores = torch.sum(max_scores_idx_batch, dim=1)

@@ -11,8 +11,7 @@ from io import open
 from itertools import cycle
 import torch.nn as nn
 from bleu import _bleu
-from transformers import (WEIGHTS_NAME, AdamW, get_linear_schedule_with_warmup,
-                          RobertaConfig, RobertaModel, RobertaTokenizer)
+from transformers import (RobertaConfig, RobertaModel, RobertaTokenizer)
 MODEL_CLASSES = {'roberta': (RobertaConfig, RobertaModel, RobertaTokenizer)}
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',

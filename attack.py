@@ -16,8 +16,8 @@ import bleu
 from important_words import get_important_scores, get_important_scores_graphcodebert
 from substitues import get_substitues
 
-from textfooler.get_substitutes_textfooler import get_substitutes_textfooler
-from textfooler.get_substitutes_textfooler import get_similarity_score
+# from textfooler.get_substitutes_textfooler import get_substitutes_textfooler
+# from textfooler.get_substitutes_textfooler import get_similarity_score
 
 from graphcodebert_input import convert_examples_to_features
 
@@ -95,7 +95,7 @@ def attack(feature, config, victim_model, atk_model, max_length=512, threshold_p
         pred_out = victim_model['tokenizer'].batch_decode(pred.sequences[0], skip_special_tokens=True, clean_up_tokenization_spaces=False)
         scores = pred.scores
 
-    if config['victim_model'] == 'codebert' or config['victim_model'] == 'roberta':
+    if config['victim_model'] == 'codebert' or config['victim_model'] == 'roberta' or config['victim_model'] == 'invariantbert':
         preds, scores = victim_model['model'](source_ids=code_ids.to(config['device']),
                                       source_mask=code_mask)
         for pred in preds:
@@ -206,10 +206,10 @@ def attack(feature, config, victim_model, atk_model, max_length=512, threshold_p
             substitutes = get_substitues(config, tgt_word, keys, atk_model,
                                         word_predictions, word_pred_scores_all, 
                                         top_index, threshold_pred_score)
-        elif atk_model['name'] == 'textfooler':
-            word_perturb = tgt_word
-            idx = top_index[0]
-            substitutes = get_substitutes_textfooler(word_perturb, atk_model)
+        # elif atk_model['name'] == 'textfooler':
+        #     word_perturb = tgt_word
+        #     idx = top_index[0]
+        #     substitutes = get_substitutes_textfooler(word_perturb, atk_model)
 
         most_gap = 0.0
         candidate = None
@@ -255,7 +255,7 @@ def attack(feature, config, victim_model, atk_model, max_length=512, threshold_p
                 adv_score = adv_vals.scores
                 adv_text = adv_vals.sequences[0]
             
-            if config['victim_model'] == 'codebert' or config['victim_model'] == 'roberta':
+            if config['victim_model'] == 'codebert' or config['victim_model'] == 'roberta' or config['victim_model'] == 'invariantbert':
                 temp_preds, adv_score = victim_model['model'](source_ids=adv_code_ids.to(config['device']),
                                                       source_mask=adv_code_mask)
                 for pred in temp_preds:
